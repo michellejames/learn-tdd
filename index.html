@@ -18,16 +18,69 @@
 <!-- Load the QUnit Testing Framework from CDN - this is the important bit ... -->
 <script src="https://code.jquery.com/qunit/qunit-1.18.0.js"></script>
 <script>
-    // This is what a simple unit test looks like:
-    test('This sample test should always pass!', function(assert) {
-        var result = 1 + 1;
-        assert.equal(result, 2); // just so we know everything loaded ok
-    });
-    // A failing test will be RED:
-    test('This is what a failing test looks like!', function(assert) {
-        var result = [1,2,3].indexOf(1);  // this should be 0
-        assert.equal(result, -1); // we *expect* this to fail
-    });
+
+
+    function getChange (totalPayable, cashPaid) {
+        var change = [];
+
+        var coins = [200, 100, 50, 20, 10, 5, 2, 1];
+        // var totalCoins = coins.length;
+        var remainder = cashPaid - totalPayable;
+
+        for (var i = 0; i < coins.length; i++) {
+            var coin = coins[i];
+
+            if(remainder/coin >= 1) { // check coin fits into the remainder amount
+            var times = Math.floor(remainder/coin);        // no partial coins
+
+              for(var j = 0; j < times; j++) {     // add coin to change x times
+                  change.push(coin);
+                  remainder = remainder - coin;  // subtract coin from remainder
+              }
+            }
+        }
+
+        return change;
+    };
+
+
+    console.log(getChange(215,300));
+    console.log(getChange(235,500));
+
+test('getChange(215, 300) should return [50, 20, 10, 5]', function(assert) {
+  var result = getChange(215, 300); // expect an array containing [50,20,10,5]
+  var expected = [50, 20, 10, 5];
+  assert.deepEqual(result, expected);
+})
+
+test('getChange(150, 330) should return [100, 50, 20, 10]', function(assert) {
+  var result = getChange(215, 300); // expect an array containing [50,20,10,5]
+  var expected = [100, 50, 20, 10];
+  assert.deepEqual(result, expected);
+})
+
+test('getChange(4789, 5000) should return [200, 10, 1]', function(assert) {
+  var result = getChange(215, 300); // expect an array containing [50,20,10,5]
+  var expected = [200, 10, 1];
+  assert.deepEqual(result, expected);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>
